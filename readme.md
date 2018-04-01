@@ -50,7 +50,7 @@ Note that the canvas size will automatically be inferred based on available spac
 ## Related
 
 - [particles.js](https://github.com/VincentGarreau/particles.js) - Older particle animation. Oddly enough, I developed this animation in Java back in 2008, though the two animations are AFAIK unrelated to each other.
-- [Intersection.Aggregate](http://www.complexification.net/gallery/machines/interAggregate/index.php) - Jared Tarbell's original processing work which this animation is loosely based on (e.g., visualizing the intersections between circles moving about randomly).
+- [Intersection.Aggregate](http://www.complexification.net/gallery/machines/interAggregate/index.php) - Jared Tarbell's original processing work from 2004 which this animation was inspired by (e.g., visualizing the intersections between circles moving about randomly).
 
 ## License
 
