@@ -45,7 +45,7 @@ class Example extends Component {
 
 Note that for colors, `rgba` are all floating point numbers between 0 and 255 (inclusive).
 
-Note that the canvas size will be automatically inferred based on available space via [react-sizeme](https://github.com/ctrlplusb/react-sizeme), so it should be really easy to use this component as a fullscreen background as in the [demo](https://transitive-bullshit.github.io/react-particle-animation/).
+Note that the canvas size will automatically be inferred based on available space via [react-sizeme](https://github.com/ctrlplusb/react-sizeme), so it should be really easy to use this component as a fullscreen background as in the [demo](https://transitive-bullshit.github.io/react-particle-animation/).
 
 ## Related
 

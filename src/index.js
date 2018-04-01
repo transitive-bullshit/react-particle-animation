@@ -28,8 +28,7 @@ import Circle from './circle'
 
 const noop = () => { }
 
-@sizeMe({ monitorWidth: true, monitorHeight: true })
-export default class ParticleAnimation extends PureComponent {
+class ParticleAnimation extends PureComponent {
   static propTypes = {
     numParticles: PropTypes.number,
     lineWidth: PropTypes.number,
@@ -277,3 +276,5 @@ export default class ParticleAnimation extends PureComponent {
     this._mouseY = offsetY
   }
 }
+
+export default sizeMe({ monitorWidth: true, monitorHeight: true })(ParticleAnimation)
