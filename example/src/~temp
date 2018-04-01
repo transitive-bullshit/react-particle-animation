@@ -1,0 +1,24 @@
+
+        <div
+          style={{
+            position: 'relative',
+            zIndex: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            textAlign: 'center',
+            minHeight: '100vh',
+            pointerEvents: 'none'
+          }}
+        >
+          <a
+            href='https://github.com/transitive-bullshit/react-particle-animation'
+            style={{
+              color: '#333'
+            }}
+          >
+            <h1>React Particle Animation</h1>
+          </a>
+        </div>
+

@@ -1,7 +1,7 @@
-import ExampleComponent from './'
+import ParticleAnimation from '.'
 
-describe('ExampleComponent', () => {
+describe('ParticleAnimation', () => {
   it('is truthy', () => {
-    expect(ExampleComponent).toBeTruthy()
+    expect(ParticleAnimation).toBeTruthy()
   })
 })
