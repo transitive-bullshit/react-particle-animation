@@ -50,7 +50,8 @@ class ParticleAnimation extends PureComponent {
     size: PropTypes.shape({
       width: PropTypes.number,
       height: PropTypes.number
-    }).isRequired
+    }).isRequired,
+    style: PropTypes.object
   }
 
   static defaultProps = {
@@ -70,7 +71,8 @@ class ParticleAnimation extends PureComponent {
       g: 255,
       b: 255,
       a: 255
-    }
+    },
+    style: { }
   }
 
   componentWillMount() {
@@ -86,7 +88,7 @@ class ParticleAnimation extends PureComponent {
   }
 
   componentWillReceiveProps(props) {
-    this._reset(props)
+    this._reset(props, this.props)
   }
 
   render() {
@@ -99,19 +101,27 @@ class ParticleAnimation extends PureComponent {
       color,
       background,
       lineWidth,
+      style,
       ...rest
     } = this.props
 
     return (
-      <canvas
-        ref={this._canvasRef}
-        width={size.width}
-        height={size.height}
-        onMouseOver={interactive ? this._onMouseOver : noop}
-        onMouseOut={interactive ? this._onMouseOut : noop}
-        onMouseMove={interactive ? this._onMouseMove : noop}
+      <div
+        style={{
+          overflow: 'hidden',
+          ...style
+        }}
         {...rest}
-      />
+      >
+        <canvas
+          ref={this._canvasRef}
+          width={size.width}
+          height={size.height}
+          onMouseOver={interactive ? this._onMouseOver : noop}
+          onMouseOut={interactive ? this._onMouseOut : noop}
+          onMouseMove={interactive ? this._onMouseMove : noop}
+        />
+      </div>
     )
   }
 
@@ -211,7 +221,21 @@ class ParticleAnimation extends PureComponent {
     }
   }
 
-  _reset(props) {
+  _reset(props, old) {
+    const {
+      numParticles
+    } = props
+
+    const numMouseParticles = Math.max(5, Math.min(50, numParticles / 25)) | 0
+
+    this._particles = this._resetParticles(this._particles || [], props, old)
+    this._mouseParticles = this._resetParticles(this._mouseParticles || [], {
+      ...props,
+      numParticles: numMouseParticles
+    }, old)
+  }
+
+  _resetParticles(particles, props, old) {
     const {
       numParticles,
       size,
@@ -219,10 +243,8 @@ class ParticleAnimation extends PureComponent {
       particleSpeed
     } = props
 
-    this._particles = []
-
-    for (let i = 0; i < numParticles; ++i) {
-      const circle = new Circle({
+    const createParticle = () => (
+      new Circle({
         x: Math.random() * size.width,
         y: Math.random() * size.height,
         radius: (10 + Math.random() * 60) * particleRadius,
@@ -230,25 +252,40 @@ class ParticleAnimation extends PureComponent {
         height: size.height,
         speed: 0.5 * particleSpeed
       })
+    )
 
-      this._particles.push(circle)
+    if (old) {
+      let max = numParticles
+
+      if (numParticles > particles.length) {
+        max = particles.length
+
+        const diff = numParticles - particles.length
+        for (let i = 0; i < diff; ++i) {
+          particles.push(createParticle())
+        }
+      } else {
+        particles = particles.slice(0, numParticles)
+      }
+
+      for (let i = 0; i < max; ++i) {
+        const p = particles[i]
+        p.x = p.x * size.width / old.size.width
+        p.y = p.y * size.height / old.size.height
+        p.radius = p.radius * particleRadius / old.particleRadius
+        p.radiusSquared = p.radius * p.radius
+        p.width = size.width
+        p.height = size.height
+        p.dX = p.dX * particleSpeed / old.particleSpeed
+        p.dY = p.dY * particleSpeed / old.particleSpeed
+      }
+    } else {
+      for (let i = 0; i < numParticles; ++i) {
+        particles.push(createParticle())
+      }
     }
 
-    const numMouseParticles = Math.max(5, Math.min(50, numParticles / 25))
-    this._mouseParticles = []
-
-    for (let i = 0; i < numMouseParticles; ++i) {
-      const circle = new Circle({
-        x: Math.random() * size.width,
-        y: Math.random() * size.height,
-        radius: (10 + Math.random() * 60) * particleRadius,
-        width: size.width,
-        height: size.height,
-        speed: 10 * particleSpeed
-      })
-
-      this._mouseParticles.push(circle)
-    }
+    return particles
   }
 
   _onMouseOver = (event) => {
