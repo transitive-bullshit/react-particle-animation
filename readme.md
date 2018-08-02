@@ -2,7 +2,7 @@
 
 > ✨ Canvas-based particle animation for React.
 
-[![NPM](https://img.shields.io/npm/v/react-particle-animation.svg)](https://www.npmjs.com/package/react-particle-animation) [![Build Status](https://travis-ci.org/transitive-bullshit/react-particle-animation.svg?branch=master)](https://travis-ci.org/transitive-bullshit/react-particle-animation) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/react-particle-animation.svg)](https://www.npmjs.com/package/react-particle-animation) [![Build Status](https://travis-ci.com/transitive-bullshit/react-particle-animation.svg?branch=master)](https://travis-ci.com/transitive-bullshit/react-particle-animation) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
