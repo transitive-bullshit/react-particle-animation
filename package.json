@@ -1,6 +1,6 @@
 {
   "name": "react-particle-animation",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Canvas-based particle animation for React.",
   "author": "transitive-bullshit",
   "license": "MIT",
