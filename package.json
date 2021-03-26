@@ -4,7 +4,6 @@
   "description": "Canvas-based particle animation for React.",
   "author": "transitive-bullshit",
   "license": "MIT",
-  "reveal": true,
   "repository": "transitive-bullshit/react-particle-animation",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -23,9 +22,8 @@
     "react-sizeme": "^2.4.2"
   },
   "peerDependencies": {
-    "prop-types": "^15.5.4",
-    "react": "^15.0.0 || ^16.0.0",
-    "react-dom": "^15.0.0 || ^16.0.0"
+    "prop-types": ">= 16",
+    "react": ">= 16"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -36,9 +34,9 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "gh-pages": "^1.1.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-scripts": "^1.1.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "^4.0.3",
     "rollup": "^0.54.0",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^8.2.1",

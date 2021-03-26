@@ -20,13 +20,12 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-import { findDOMNode } from 'react-dom'
 import sizeMe from 'react-sizeme'
 import raf from 'raf'
 
 import Circle from './circle'
 
-const noop = () => { }
+const noop = () => {}
 
 class ParticleAnimation extends PureComponent {
   static propTypes = {
@@ -72,7 +71,7 @@ class ParticleAnimation extends PureComponent {
       b: 255,
       a: 255
     },
-    style: { }
+    style: {}
   }
 
   componentWillMount() {
@@ -137,9 +136,7 @@ class ParticleAnimation extends PureComponent {
   }
 
   _update() {
-    const {
-      interactive
-    } = this.props
+    const { interactive } = this.props
 
     for (let i = 0; i < this._particles.length; ++i) {
       this._particles[i].update()
@@ -153,16 +150,10 @@ class ParticleAnimation extends PureComponent {
   }
 
   _draw() {
-    const {
-      interactive,
-      lineWidth,
-      background,
-      color,
-      size
-    } = this.props
+    const { interactive, lineWidth, background, color, size } = this.props
 
     if (!this._canvas) return
-    const canvas = findDOMNode(this._canvas)
+    const canvas = this._canvas.current
     if (!canvas) return
 
     const ctx = canvas.getContext('2d')
@@ -176,8 +167,7 @@ class ParticleAnimation extends PureComponent {
     let particles = this._particles
 
     if (interactive && this._mouseX && this._mouseY) {
-      particles = []
-        .concat(this._particles)
+      particles = [].concat(this._particles)
 
       const minR = Math.min(size.width, size.height)
       const xRadius = minR / 5
@@ -185,20 +175,24 @@ class ParticleAnimation extends PureComponent {
 
       for (let i = 0; i < this._mouseParticles.length; ++i) {
         const p = this._mouseParticles[i]
-        particles.push(new Circle({
-          x: this._mouseX + (p.x / size.width - 0.5) * xRadius,
-          y: this._mouseY + (p.y / size.height - 0.5) * yRadius,
-          radius: p.radius,
-          width: p.width,
-          height: p.height
-        }))
+        particles.push(
+          new Circle({
+            x: this._mouseX + (p.x / size.width - 0.5) * xRadius,
+            y: this._mouseY + (p.y / size.height - 0.5) * yRadius,
+            radius: p.radius,
+            width: p.width,
+            height: p.height
+          })
+        )
       }
     }
 
     for (let i = 0; i < particles.length; ++i) {
       const pi = particles[i]
 
-      ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a / 255.0 * 0.1})`
+      ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${
+        (color.a / 255.0) * 0.1
+      })`
       ctx.beginPath()
       ctx.ellipse(pi.x, pi.y, pi.radius / 10, pi.radius / 10, 0, 0, 2 * Math.PI)
       ctx.fill()
@@ -207,11 +201,15 @@ class ParticleAnimation extends PureComponent {
         const pj = particles[j]
 
         if (pi.intersects(pj)) {
-          const dist = Math.sqrt((pi.x - pj.x) * (pi.x - pj.x) + (pi.y - pj.y) * (pi.y - pj.y))
+          const dist = Math.sqrt(
+            (pi.x - pj.x) * (pi.x - pj.x) + (pi.y - pj.y) * (pi.y - pj.y)
+          )
           const d = Math.max(0, Math.min(1, dist / 100.0))
-          const a = 20 * (d) + 150 * (1.0 - d)
+          const a = 20 * d + 150 * (1.0 - d)
 
-          ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a * a / (255.0 * 255.0)})`
+          ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${
+            (color.a * a) / (255.0 * 255.0)
+          })`
           ctx.beginPath()
           ctx.moveTo(pi.x, pi.y)
           ctx.lineTo(pj.x, pj.y)
@@ -222,28 +220,25 @@ class ParticleAnimation extends PureComponent {
   }
 
   _reset(props, old) {
-    const {
-      numParticles
-    } = props
+    const { numParticles } = props
 
     const numMouseParticles = Math.max(5, Math.min(50, numParticles / 25)) | 0
 
     this._particles = this._resetParticles(this._particles || [], props, old)
-    this._mouseParticles = this._resetParticles(this._mouseParticles || [], {
-      ...props,
-      numParticles: numMouseParticles
-    }, old)
+    this._mouseParticles = this._resetParticles(
+      this._mouseParticles || [],
+      {
+        ...props,
+        numParticles: numMouseParticles
+      },
+      old
+    )
   }
 
   _resetParticles(particles, props, old) {
-    const {
-      numParticles,
-      size,
-      particleRadius,
-      particleSpeed
-    } = props
+    const { numParticles, size, particleRadius, particleSpeed } = props
 
-    const createParticle = () => (
+    const createParticle = () =>
       new Circle({
         x: Math.random() * size.width,
         y: Math.random() * size.height,
@@ -252,7 +247,6 @@ class ParticleAnimation extends PureComponent {
         height: size.height,
         speed: 0.5 * particleSpeed
       })
-    )
 
     if (old) {
       let max = numParticles
@@ -270,14 +264,14 @@ class ParticleAnimation extends PureComponent {
 
       for (let i = 0; i < max; ++i) {
         const p = particles[i]
-        p.x = p.x * size.width / old.size.width
-        p.y = p.y * size.height / old.size.height
-        p.radius = p.radius * particleRadius / old.particleRadius
+        p.x = (p.x * size.width) / old.size.width
+        p.y = (p.y * size.height) / old.size.height
+        p.radius = (p.radius * particleRadius) / old.particleRadius
         p.radiusSquared = p.radius * p.radius
         p.width = size.width
         p.height = size.height
-        p.dX = p.dX * particleSpeed / old.particleSpeed
-        p.dY = p.dY * particleSpeed / old.particleSpeed
+        p.dX = (p.dX * particleSpeed) / old.particleSpeed
+        p.dY = (p.dY * particleSpeed) / old.particleSpeed
       }
     } else {
       for (let i = 0; i < numParticles; ++i) {
@@ -289,10 +283,7 @@ class ParticleAnimation extends PureComponent {
   }
 
   _onMouseOver = (event) => {
-    const {
-      offsetX,
-      offsetY
-    } = event.nativeEvent
+    const { offsetX, offsetY } = event.nativeEvent
 
     this._mouseX = offsetX
     this._mouseY = offsetY
@@ -304,14 +295,13 @@ class ParticleAnimation extends PureComponent {
   }
 
   _onMouseMove = (event) => {
-    const {
-      offsetX,
-      offsetY
-    } = event.nativeEvent
+    const { offsetX, offsetY } = event.nativeEvent
 
     this._mouseX = offsetX
     this._mouseY = offsetY
   }
 }
 
-export default sizeMe({ monitorWidth: true, monitorHeight: true })(ParticleAnimation)
+export default sizeMe({ monitorWidth: true, monitorHeight: true })(
+  ParticleAnimation
+)
