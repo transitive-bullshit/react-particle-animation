@@ -74,6 +74,8 @@ class ParticleAnimation extends PureComponent {
     style: {}
   }
 
+  _canvas = React.createRef()
+
   componentWillMount() {
     this._reset(this.props)
   }
@@ -113,7 +115,7 @@ class ParticleAnimation extends PureComponent {
         {...rest}
       >
         <canvas
-          ref={this._canvasRef}
+          ref={this._canvas}
           width={size.width}
           height={size.height}
           onMouseOver={interactive ? this._onMouseOver : noop}
@@ -122,10 +124,6 @@ class ParticleAnimation extends PureComponent {
         />
       </div>
     )
-  }
-
-  _canvasRef = (ref) => {
-    this._canvas = ref
   }
 
   _tick = () => {
