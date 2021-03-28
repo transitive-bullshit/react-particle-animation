@@ -27,6 +27,14 @@ import Circle from './circle'
 
 const noop = () => {}
 
+export function isIE11 () {
+  var ua = window.navigator.userAgent // Check the userAgent property of the window.navigator object
+  var msie = ua.indexOf('MSIE ') // IE 10 or older
+  var trident = ua.indexOf('Trident/') // IE 11
+
+  return msie > 0 || trident > 0
+}
+
 class ParticleAnimation extends PureComponent {
   static propTypes = {
     numParticles: PropTypes.number,
@@ -192,7 +200,9 @@ class ParticleAnimation extends PureComponent {
         (color.a / 255.0) * 0.1
       })`
       ctx.beginPath()
-      ctx.ellipse(pi.x, pi.y, pi.radius / 10, pi.radius / 10, 0, 0, 2 * Math.PI)
+      
+      if (!isIE11()) ctx.ellipse(pi.x, pi.y, pi.radius / 10, pi.radius / 10, 0, 0, 2 * Math.PI)
+      
       ctx.fill()
 
       for (let j = i + 1; j < particles.length; ++j) {
